@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель оператора — Payment Service</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="dashboard-header">
+      <h1>Панель оператора</h1>
+      <div class="user-info">
+        <span id="userName"></span>
+        <button type="button" class="btn logout-btn" id="logoutBtn">Выйти</button>
+      </div>
+    </header>
+
+    <div class="panels">
+      <div class="panel">
+        <h2 class="panel-title">Payment requests (пополнение)</h2>
+        <div class="panel-body">
+          <div id="paymentLoading" class="loading">Загрузка…</div>
+          <div id="paymentContent" class="table-wrap" style="display: none;"></div>
+          <div id="paymentEmpty" class="empty-state" style="display: none;">Нет записей</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2 class="panel-title">Cashout requests (вывод)</h2>
+        <div class="panel-body">
+          <div id="cashoutLoading" class="loading">Загрузка…</div>
+          <div id="cashoutContent" class="table-wrap" style="display: none;"></div>
+          <div id="cashoutEmpty" class="empty-state" style="display: none;">Нет записей</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -85,6 +85,23 @@ java -jar target/payment-service-1.0.0.jar
 
 Приложение будет доступно по адресу: `http://localhost:8080`
 
+## Web UI
+
+В проект встроен веб-интерфейс на JavaScript (без фреймворков).
+
+- **Страница входа:** `http://localhost:8080/` или `http://localhost:8080/index.html`  
+  Вход по логину и паролю из таблицы **operators** (поле `username` и `password`).
+
+- **Панель оператора:** после входа открывается `http://localhost:8080/dashboard.html`  
+  Два блока:
+  - **Payment requests** — записи из `payment_requests` для текущего оператора (GET `/api/operator/{operatorId}/payment-requests`). У каждой записи кнопка **Approve** (PUT `/api/operator/payment-requests/{id}/approve`).
+  - **Cashout requests** — записи из `cashout_requests` для текущего оператора (GET `/api/operator/{operatorId}/cashout-requests`). У каждой записи кнопка **Approve** (PUT `/api/operator/cashout-requests/{id}/approve`).
+
+Перед использованием UI добавьте оператора в БД (например, через H2 Console):
+```sql
+INSERT INTO operators (username, password) VALUES ('operator1', 'password123');
+```
+
 ## API Endpoints
 
 ### 1. Авторизация
