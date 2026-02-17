@@ -7,7 +7,7 @@
 
     <changeSet id="001-create-operators-table" author="system">
         <createTable tableName="operators">
-            <column name="operator_id" type="BIGSERIAL">
+            <column name="operator_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="VARCHAR(255)">

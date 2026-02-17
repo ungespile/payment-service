@@ -1,54 +1,40 @@
 # Payment Service
 
-Сервис для управления платежами на Java 17 с использованием Spring Boot 3, PostgreSQL и Liquibase.
+Сервис для управления платежами на Java 17 с использованием Spring Boot 3, H2 Database и Liquibase.
 
 ## Требования
 
 - Java 17 или выше
 - Maven 3.6+
-- Docker и Docker Compose (для запуска PostgreSQL) или PostgreSQL 12+
 
 ## Настройка базы данных
 
-### Вариант 1: Использование Docker (рекомендуется)
+Проект использует **H2 Database** - встроенную базу данных Java, которая не требует дополнительной установки или настройки.
 
-1. Запустите PostgreSQL контейнер:
-```bash
-docker-compose up -d
-```
+### Автоматическая настройка
 
-2. База данных будет доступна по адресу `localhost:5432` с настройками:
-   - Database: `payment_db`
-   - Username: `postgres`
-   - Password: `postgres`
+База данных H2 автоматически создается при первом запуске приложения. Данные сохраняются в файл `./data/payment_db.mv.db` в корне проекта.
 
-3. Настройки в `src/main/resources/application.properties` уже настроены для работы с Docker контейнером.
+### H2 Console
 
-### Вариант 2: Локальная установка PostgreSQL
+Для просмотра и управления данными доступна веб-консоль H2:
+- URL: `http://localhost:8080/h2-console`
+- JDBC URL: `jdbc:h2:file:./data/payment_db`
+- Username: `sa`
+- Password: (пусто)
 
-1. Создайте базу данных PostgreSQL:
-```sql
-CREATE DATABASE payment_db;
-```
+### Настройки базы данных
 
-2. Обновите настройки подключения в `src/main/resources/application.properties`:
+Настройки в `src/main/resources/application.properties`:
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/payment_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+spring.datasource.url=jdbc:h2:file:./data/payment_db;AUTO_SERVER=TRUE
+spring.datasource.username=sa
+spring.datasource.password=
 ```
 
-### Остановка Docker контейнера
+### Удаление данных
 
-Для остановки PostgreSQL контейнера:
-```bash
-docker-compose down
-```
-
-Для остановки и удаления данных:
-```bash
-docker-compose down -v
-```
+Для очистки базы данных просто удалите файл `./data/payment_db.mv.db` и перезапустите приложение. Все таблицы будут созданы заново через Liquibase миграции.
 
 ## Структура базы данных
 

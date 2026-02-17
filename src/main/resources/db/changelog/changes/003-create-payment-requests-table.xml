@@ -7,7 +7,7 @@
 
     <changeSet id="003-create-payment-requests-table" author="system">
         <createTable tableName="payment_requests">
-            <column name="id" type="BIGSERIAL">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="operator_id" type="BIGINT">
