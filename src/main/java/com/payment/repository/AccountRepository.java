@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     
-    @Query("SELECT a FROM Account a WHERE a.isActive = true AND a.uncheckedAvailableAmount < :amount ORDER BY a.id ASC")
-    List<Account> findActiveAccountsWithUncheckedAmountLessThan(@Param("amount") BigDecimal amount, Pageable pageable);
+    @Query("SELECT a FROM Account a WHERE a.isActive = true AND a.uncheckedAvailableAmount > :amount ORDER BY a.id ASC")
+    List<Account> findActiveAccountsWithUncheckedAmountGreaterThan(@Param("amount") BigDecimal amount, Pageable pageable);
 }

@@ -23,9 +23,9 @@ public class CashoutService {
 
     @Transactional
     public Optional<CashoutRequest> createCashoutRequest(BigDecimal amount) {
-        // Находим первую запись из accounts с is_active=true и unchecked_available_amount < amount
+        // Находим первую запись из accounts с is_active=true и unchecked_available_amount > amount
         Pageable pageable = PageRequest.of(0, 1);
-        List<Account> accounts = accountRepository.findActiveAccountsWithUncheckedAmountLessThan(amount, pageable);
+        List<Account> accounts = accountRepository.findActiveAccountsWithUncheckedAmountGreaterThan(amount, pageable);
         
         if (accounts.isEmpty()) {
             return Optional.empty();
