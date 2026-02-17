@@ -158,7 +158,7 @@ INSERT INTO operators (username, password) VALUES ('operator1', 'password123');
 ```json
 {
   "success": false,
-  "message": "No active account found with unchecked_available_amount less than the requested amount"
+  "message": "No active account found with unchecked_available_amount greater than the requested amount"
 }
 ```
 
@@ -283,7 +283,7 @@ INSERT INTO operators (username, password) VALUES ('operator1', 'password123');
 ```json
 {
   "success": false,
-  "message": "No active account found with unchecked_available_amount less than the requested amount"
+  "message": "No active account found with unchecked_available_amount greater than the requested amount"
 }
 ```
 
@@ -292,7 +292,7 @@ INSERT INTO operators (username, password) VALUES ('operator1', 'password123');
 При создании запроса на пополнение баланса или вывод средств система:
 1. Выбирает первую запись из таблицы `accounts` с условиями:
    - `is_active = true`
-   - `unchecked_available_amount < amount` (запрошенная сумма)
+   - `unchecked_available_amount > amount` (запрошенная сумма)
    - Аккаунты сортируются по `id` в порядке возрастания
 2. Автоматически определяет `operator_id` из выбранного аккаунта (`accounts.operator_id`)
 3. Создает запись в соответствующей таблице (`payment_requests` или `cashout_requests`) с определенным `operator_id` и `account_id`

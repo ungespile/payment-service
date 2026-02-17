@@ -34,7 +34,7 @@ public class PaymentController {
         } else {
             TopUpResponse response = new TopUpResponse(
                 false,
-                "No active account found with unchecked_available_amount less than the requested amount"
+                "No active account found with unchecked_available_amount greater than the requested amount"
             );
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
