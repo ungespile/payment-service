@@ -10,13 +10,19 @@
   <div class="container">
     <header class="dashboard-header">
       <h1 data-i18n="dashboard.headerTitle">Панель оператора</h1>
-      <div class="user-info">
-        <span id="userName"></span>
-        <div class="lang-switcher">
-          <button type="button" class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
-          <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+      <div class="header-actions">
+        <div class="session-buttons">
+          <button type="button" class="btn btn-session btn-begin" id="beginSessionBtn" data-i18n="dashboard.beginSession">Начать сессию</button>
+          <button type="button" class="btn btn-session btn-end" id="endSessionBtn" data-i18n="dashboard.endSession">Завершить сессию</button>
         </div>
-        <button type="button" class="btn logout-btn" id="logoutBtn" data-i18n="dashboard.logout">Выйти</button>
+        <div class="user-info">
+          <span id="userName"></span>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+          </div>
+          <button type="button" class="btn logout-btn" id="logoutBtn" data-i18n="dashboard.logout">Выйти</button>
+        </div>
       </div>
     </header>
 

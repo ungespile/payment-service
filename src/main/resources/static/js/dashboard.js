@@ -17,6 +17,10 @@
       window.I18n.applyTranslations();
     }
     document.getElementById('userName').textContent = sessionStorage.getItem('username') || t('dashboard.operator');
+    var beginBtn = document.getElementById('beginSessionBtn');
+    var endBtn = document.getElementById('endSessionBtn');
+    if (beginBtn) beginBtn.textContent = t('dashboard.beginSession');
+    if (endBtn) endBtn.textContent = t('dashboard.endSession');
     var loadPayment = document.getElementById('paymentLoading');
     var loadCashout = document.getElementById('cashoutLoading');
     if (loadPayment && loadPayment.style.display !== 'none') loadPayment.textContent = t('dashboard.loading');
@@ -38,6 +42,30 @@
     sessionStorage.removeItem('operatorId');
     sessionStorage.removeItem('username');
     window.location.href = '/index.html';
+  });
+
+  document.getElementById('beginSessionBtn').addEventListener('click', function () {
+    var btn = this;
+    btn.disabled = true;
+    fetch(API_BASE + '/api/operator/' + operatorId + '/session/begin', { method: 'POST' })
+      .then(function (res) {
+        if (res.ok) alert(t('dashboard.sessionStarted'));
+        else alert(t('dashboard.errorConnection'));
+      })
+      .catch(function () { alert(t('dashboard.errorConnection')); })
+      .finally(function () { btn.disabled = false; });
+  });
+
+  document.getElementById('endSessionBtn').addEventListener('click', function () {
+    var btn = this;
+    btn.disabled = true;
+    fetch(API_BASE + '/api/operator/' + operatorId + '/session/end', { method: 'POST' })
+      .then(function (res) {
+        if (res.ok) alert(t('dashboard.sessionEnded'));
+        else alert(t('dashboard.errorConnection'));
+      })
+      .catch(function () { alert(t('dashboard.errorConnection')); })
+      .finally(function () { btn.disabled = false; });
   });
 
   document.querySelectorAll('.lang-switcher .lang-btn').forEach(function (btn) {

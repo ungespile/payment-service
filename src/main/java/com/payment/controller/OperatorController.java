@@ -4,6 +4,7 @@ import com.payment.dto.CashoutRequestResponse;
 import com.payment.dto.PaymentRequestResponse;
 import com.payment.entity.CashoutRequest;
 import com.payment.entity.PaymentRequest;
+import com.payment.service.AccountService;
 import com.payment.service.CashoutService;
 import com.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class OperatorController {
 
     private final PaymentService paymentService;
     private final CashoutService cashoutService;
+    private final AccountService accountService;
 
     @GetMapping("/{operatorId}/payment-requests")
     public ResponseEntity<List<PaymentRequestResponse>> getPaymentRequestsByOperatorId(
@@ -100,5 +102,17 @@ public class OperatorController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @PostMapping("/{operatorId}/session/begin")
+    public ResponseEntity<Void> beginSession(@PathVariable Long operatorId) {
+        accountService.setAccountsActiveByOperatorId(operatorId, true);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{operatorId}/session/end")
+    public ResponseEntity<Void> endSession(@PathVariable Long operatorId) {
+        accountService.setAccountsActiveByOperatorId(operatorId, false);
+        return ResponseEntity.ok().build();
     }
 }

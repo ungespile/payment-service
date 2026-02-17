@@ -31,7 +31,11 @@
         approve: 'Approve',
         errorApprove: 'Не удалось одобрить запрос',
         errorConnection: 'Ошибка соединения',
-        loadError: 'Ошибка загрузки'
+        loadError: 'Ошибка загрузки',
+        beginSession: 'Начать сессию',
+        endSession: 'Завершить сессию',
+        sessionStarted: 'Сессия начата',
+        sessionEnded: 'Сессия завершена'
       }
     },
     en: {
@@ -63,7 +67,11 @@
         approve: 'Approve',
         errorApprove: 'Failed to approve request',
         errorConnection: 'Connection error',
-        loadError: 'Load error'
+        loadError: 'Load error',
+        beginSession: 'Begin session',
+        endSession: 'End session',
+        sessionStarted: 'Session started',
+        sessionEnded: 'Session ended'
       }
     }
   };
