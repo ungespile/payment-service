@@ -22,7 +22,7 @@ public class CashoutService {
     private final CashoutRequestRepository cashoutRequestRepository;
 
     @Transactional
-    public Optional<CashoutRequest> createCashoutRequest(Long operatorId, BigDecimal amount) {
+    public Optional<CashoutRequest> createCashoutRequest(BigDecimal amount) {
         // Находим первую запись из accounts с is_active=true и unchecked_available_amount < amount
         Pageable pageable = PageRequest.of(0, 1);
         List<Account> accounts = accountRepository.findActiveAccountsWithUncheckedAmountLessThan(amount, pageable);
@@ -33,9 +33,9 @@ public class CashoutService {
         
         Account account = accounts.get(0);
         
-        // Создаем запись в cashout_requests
+        // Создаем запись в cashout_requests с operator_id из выбранного account
         CashoutRequest cashoutRequest = CashoutRequest.builder()
-                .operatorId(operatorId)
+                .operatorId(account.getOperatorId())
                 .accountId(account.getId())
                 .amount(amount)
                 .isApproved(false)

@@ -18,16 +18,8 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/top-up")
-    public ResponseEntity<TopUpResponse> topUp(
-            @RequestHeader(value = "X-Operator-Id", required = false) Long operatorId,
-            @Valid @RequestBody TopUpRequest request) {
-        
-        if (operatorId == null) {
-            TopUpResponse response = new TopUpResponse(false, "Operator ID is required in header X-Operator-Id");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-        
-        var paymentRequestOpt = paymentService.createTopUpRequest(operatorId, request.getAmount());
+    public ResponseEntity<TopUpResponse> topUp(@Valid @RequestBody TopUpRequest request) {
+        var paymentRequestOpt = paymentService.createTopUpRequest(request.getAmount());
         
         if (paymentRequestOpt.isPresent()) {
             PaymentRequest paymentRequest = paymentRequestOpt.get();

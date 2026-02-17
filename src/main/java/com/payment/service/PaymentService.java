@@ -22,7 +22,7 @@ public class PaymentService {
     private final PaymentRequestRepository paymentRequestRepository;
 
     @Transactional
-    public Optional<PaymentRequest> createTopUpRequest(Long operatorId, BigDecimal amount) {
+    public Optional<PaymentRequest> createTopUpRequest(BigDecimal amount) {
         // Находим первую запись из accounts с is_active=true и unchecked_available_amount < amount
         Pageable pageable = PageRequest.of(0, 1);
         List<Account> accounts = accountRepository.findActiveAccountsWithUncheckedAmountLessThan(amount, pageable);
@@ -33,9 +33,9 @@ public class PaymentService {
         
         Account account = accounts.get(0);
         
-        // Создаем запись в payment_requests
+        // Создаем запись в payment_requests с operator_id из выбранного account
         PaymentRequest paymentRequest = PaymentRequest.builder()
-                .operatorId(operatorId)
+                .operatorId(account.getOperatorId())
                 .accountId(account.getId())
                 .amount(amount)
                 .isApproved(false)

@@ -119,9 +119,6 @@ java -jar target/payment-service-1.0.0.jar
 ### 2. Пополнение баланса
 **POST** `/api/payment/top-up`
 
-Заголовки:
-- `X-Operator-Id`: ID оператора (обязательно)
-
 Тело запроса:
 ```json
 {
@@ -151,9 +148,6 @@ java -jar target/payment-service-1.0.0.jar
 ### 3. Создание запроса на вывод средств
 **POST** `/api/cashout/request`
 
-Заголовки:
-- `X-Operator-Id`: ID оператора (обязательно)
-
 Тело запроса:
 ```json
 {
@@ -180,13 +174,15 @@ java -jar target/payment-service-1.0.0.jar
 }
 ```
 
-## Логика выбора аккаунта
+## Логика выбора аккаунта и оператора
 
-При создании запроса на пополнение баланса система выбирает первую запись из таблицы `accounts` с условиями:
-- `is_active = true`
-- `unchecked_available_amount < amount` (запрошенная сумма)
-
-Аккаунты сортируются по `id` в порядке возрастания.
+При создании запроса на пополнение баланса или вывод средств система:
+1. Выбирает первую запись из таблицы `accounts` с условиями:
+   - `is_active = true`
+   - `unchecked_available_amount < amount` (запрошенная сумма)
+   - Аккаунты сортируются по `id` в порядке возрастания
+2. Автоматически определяет `operator_id` из выбранного аккаунта (`accounts.operator_id`)
+3. Создает запись в соответствующей таблице (`payment_requests` или `cashout_requests`) с определенным `operator_id` и `account_id`
 
 ## Примеры использования
 
@@ -201,7 +197,6 @@ curl -X POST http://localhost:8080/api/auth/login \
 ```bash
 curl -X POST http://localhost:8080/api/payment/top-up \
   -H "Content-Type: application/json" \
-  -H "X-Operator-Id: 1" \
   -d '{"amount":500.00}'
 ```
 
@@ -209,6 +204,5 @@ curl -X POST http://localhost:8080/api/payment/top-up \
 ```bash
 curl -X POST http://localhost:8080/api/cashout/request \
   -H "Content-Type: application/json" \
-  -H "X-Operator-Id: 1" \
   -d '{"amount":300.00}'
 ```

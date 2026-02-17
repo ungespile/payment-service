@@ -18,16 +18,8 @@ public class CashoutController {
     private final CashoutService cashoutService;
 
     @PostMapping("/request")
-    public ResponseEntity<CashoutResponse> createCashoutRequest(
-            @RequestHeader(value = "X-Operator-Id", required = false) Long operatorId,
-            @Valid @RequestBody CashoutRequestDto request) {
-        
-        if (operatorId == null) {
-            CashoutResponse response = new CashoutResponse(false, "Operator ID is required in header X-Operator-Id");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-        
-        var cashoutRequestOpt = cashoutService.createCashoutRequest(operatorId, request.getAmount());
+    public ResponseEntity<CashoutResponse> createCashoutRequest(@Valid @RequestBody CashoutRequestDto request) {
+        var cashoutRequestOpt = cashoutService.createCashoutRequest(request.getAmount());
         
         if (cashoutRequestOpt.isPresent()) {
             CashoutRequest cashoutRequest = cashoutRequestOpt.get();
