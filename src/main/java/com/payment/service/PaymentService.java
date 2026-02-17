@@ -45,4 +45,8 @@ public class PaymentService {
         
         return Optional.of(savedRequest);
     }
+
+    public List<PaymentRequest> getPaymentRequestsByOperatorId(Long operatorId) {
+        return paymentRequestRepository.findByOperatorId(operatorId);
+    }
 }
