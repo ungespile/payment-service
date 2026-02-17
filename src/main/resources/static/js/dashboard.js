@@ -2,8 +2,13 @@
   const API_BASE = '';
 
   const operatorId = sessionStorage.getItem('operatorId');
+  const role = sessionStorage.getItem('role');
   if (!operatorId) {
     window.location.href = '/index.html';
+    return;
+  }
+  if (role === 'ADMIN') {
+    window.location.href = '/admin.html';
     return;
   }
 

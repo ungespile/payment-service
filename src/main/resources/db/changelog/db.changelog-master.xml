@@ -9,5 +9,7 @@
     <include file="db/changelog/changes/002-create-accounts-table.xml"/>
     <include file="db/changelog/changes/003-create-payment-requests-table.xml"/>
     <include file="db/changelog/changes/004-create-cashout-requests-table.xml"/>
+    <include file="db/changelog/changes/005-add-role-to-operators.xml"/>
+    <include file="db/changelog/changes/006-add-timestamps-to-requests.xml"/>
 
 </databaseChangeLog>

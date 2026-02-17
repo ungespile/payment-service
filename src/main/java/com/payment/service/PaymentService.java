@@ -57,6 +57,7 @@ public class PaymentService {
         if (paymentRequestOpt.isPresent()) {
             PaymentRequest paymentRequest = paymentRequestOpt.get();
             paymentRequest.setIsApproved(true);
+            paymentRequest.setApprovedAt(java.time.LocalDateTime.now());
             PaymentRequest savedRequest = paymentRequestRepository.save(paymentRequest);
             return Optional.of(savedRequest);
         }

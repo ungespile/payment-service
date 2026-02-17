@@ -27,7 +27,8 @@ public class AuthController {
                 true,
                 "Login successful",
                 operator.getOperatorId(),
-                operator.getUsername()
+                operator.getUsername(),
+                operator.getRole()
             );
             return ResponseEntity.ok(response);
         } else {

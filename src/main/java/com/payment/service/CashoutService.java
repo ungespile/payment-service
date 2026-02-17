@@ -57,6 +57,7 @@ public class CashoutService {
         if (cashoutRequestOpt.isPresent()) {
             CashoutRequest cashoutRequest = cashoutRequestOpt.get();
             cashoutRequest.setIsApproved(true);
+            cashoutRequest.setApprovedAt(java.time.LocalDateTime.now());
             CashoutRequest savedRequest = cashoutRequestRepository.save(cashoutRequest);
             return Optional.of(savedRequest);
         }

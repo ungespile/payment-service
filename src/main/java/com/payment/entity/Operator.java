@@ -22,4 +22,7 @@ public class Operator {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role", nullable = false)
+    private String role = "OPERATOR";
 }

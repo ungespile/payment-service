@@ -108,16 +108,30 @@ mvn spring-boot:run
 В проект встроен веб-интерфейс на JavaScript (без фреймворков).
 
 - **Страница входа:** `http://localhost:8080/` или `http://localhost:8080/index.html`  
-  Вход по логину и паролю из таблицы **operators** (поле `username` и `password`).
+  Вход по логину и паролю из таблицы **operators** (поле `username` и `password`).  
+  После входа происходит редирект в зависимости от роли:
+  - **Оператор (OPERATOR)** → `http://localhost:8080/dashboard.html`
+  - **Администратор (ADMIN)** → `http://localhost:8080/admin.html`
 
-- **Панель оператора:** после входа открывается `http://localhost:8080/dashboard.html`  
+- **Панель оператора:** `http://localhost:8080/dashboard.html`  
   Два блока:
   - **Payment requests** — записи из `payment_requests` для текущего оператора (GET `/api/operator/{operatorId}/payment-requests`). У каждой записи кнопка **Approve** (PUT `/api/operator/payment-requests/{id}/approve`).
   - **Cashout requests** — записи из `cashout_requests` для текущего оператора (GET `/api/operator/{operatorId}/cashout-requests`). У каждой записи кнопка **Approve** (PUT `/api/operator/cashout-requests/{id}/approve`).
+  - Кнопки **Начать сессию** и **Завершить сессию** для управления активностью счетов оператора.
 
-Перед использованием UI добавьте оператора в БД (например, через H2 Console):
+- **Панель администратора:** `http://localhost:8080/admin.html`  
+  История одобрений всех операторов с фильтрами:
+  - Фильтр по **operator_id** (выпадающий список всех операторов)
+  - Фильтр по **временному периоду** (дата начала и дата окончания)
+  - Таблица показывает все одобренные запросы (payment и cashout) с информацией о типе, операторе, счете, сумме и датах создания/одобрения.
+
+Перед использованием UI добавьте операторов в БД (например, через H2 Console):
 ```sql
-INSERT INTO operators (username, password) VALUES ('operator1', 'password123');
+-- Обычный оператор
+INSERT INTO operators (username, password, role) VALUES ('operator1', 'password123', 'OPERATOR');
+
+-- Администратор
+INSERT INTO operators (username, password, role) VALUES ('admin', 'admin123', 'ADMIN');
 ```
 
 ## API Endpoints

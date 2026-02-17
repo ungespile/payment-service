@@ -68,7 +68,13 @@
       if (data.success && data.operatorId != null) {
         sessionStorage.setItem('operatorId', String(data.operatorId));
         sessionStorage.setItem('username', data.username || username);
-        window.location.href = '/dashboard.html';
+        sessionStorage.setItem('role', data.role || 'OPERATOR');
+        // Редирект в зависимости от роли
+        if (data.role === 'ADMIN') {
+          window.location.href = '/admin.html';
+        } else {
+          window.location.href = '/dashboard.html';
+        }
       } else {
         showError(data.message || t('login.errorInvalid'));
       }

@@ -7,16 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class OperatorDto {
 
-    private boolean success;
-    private String message;
     private Long operatorId;
     private String username;
     private String role;
-
-    public LoginResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
 }

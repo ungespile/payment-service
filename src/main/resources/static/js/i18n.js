@@ -36,6 +36,27 @@
         endSession: 'Завершить сессию',
         sessionStarted: 'Сессия начата',
         sessionEnded: 'Сессия завершена'
+      },
+      admin: {
+        pageTitle: 'Панель администратора — Payment Service',
+        headerTitle: 'Панель администратора',
+        logout: 'Выйти',
+        filterOperator: 'Оператор:',
+        filterStartDate: 'С:',
+        filterEndDate: 'По:',
+        applyFilters: 'Применить',
+        approvalHistory: 'История одобрений',
+        loading: 'Загрузка…',
+        noRecords: 'Нет записей',
+        type: 'Тип',
+        operatorId: 'ID оператора',
+        accountId: 'ID счета',
+        amount: 'Сумма',
+        createdAt: 'Создано',
+        approvedAt: 'Одобрено',
+        allOperators: 'Все операторы',
+        errorConnection: 'Ошибка соединения',
+        loadError: 'Ошибка загрузки'
       }
     },
     en: {
@@ -72,6 +93,27 @@
         endSession: 'End session',
         sessionStarted: 'Session started',
         sessionEnded: 'Session ended'
+      },
+      admin: {
+        pageTitle: 'Admin Panel — Payment Service',
+        headerTitle: 'Admin Panel',
+        logout: 'Log out',
+        filterOperator: 'Operator:',
+        filterStartDate: 'From:',
+        filterEndDate: 'To:',
+        applyFilters: 'Apply',
+        approvalHistory: 'Approval History',
+        loading: 'Loading…',
+        noRecords: 'No records',
+        type: 'Type',
+        operatorId: 'Operator ID',
+        accountId: 'Account ID',
+        amount: 'Amount',
+        createdAt: 'Created',
+        approvedAt: 'Approved',
+        allOperators: 'All operators',
+        errorConnection: 'Connection error',
+        loadError: 'Load error'
       }
     }
   };
