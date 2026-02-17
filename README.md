@@ -146,7 +146,7 @@ java -jar target/payment-service-1.0.0.jar
 ```
 
 ### 3. Получение всех payment requests по operator_id
-**GET** `/api/payment/requests/{operatorId}`
+**GET** `/api/operator/{operatorId}/payment-requests`
 
 Параметры пути:
 - `operatorId`: ID оператора
@@ -173,7 +173,27 @@ java -jar target/payment-service-1.0.0.jar
 
 Если запросов нет, возвращается пустой массив `[]`.
 
-### 4. Создание запроса на вывод средств
+### 4. Одобрение payment request
+**PUT** `/api/operator/payment-requests/{paymentRequestId}/approve`
+
+Параметры пути:
+- `paymentRequestId`: ID payment request для одобрения
+
+Ответ при успехе:
+```json
+{
+  "id": 1,
+  "operatorId": 1,
+  "accountId": 1,
+  "amount": 1000.50,
+  "isApproved": true
+}
+```
+
+Ответ при ошибке (payment request не найден):
+- HTTP статус: `404 Not Found`
+
+### 5. Создание запроса на вывод средств
 **POST** `/api/cashout/request`
 
 Тело запроса:
@@ -230,7 +250,12 @@ curl -X POST http://localhost:8080/api/payment/top-up \
 
 ### Получение всех payment requests по operator_id
 ```bash
-curl -X GET http://localhost:8080/api/payment/requests/1
+curl -X GET http://localhost:8080/api/operator/1/payment-requests
+```
+
+### Одобрение payment request
+```bash
+curl -X PUT http://localhost:8080/api/operator/payment-requests/1/approve
 ```
 
 ### Создание запроса на вывод средств

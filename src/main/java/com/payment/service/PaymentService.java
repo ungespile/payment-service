@@ -49,4 +49,18 @@ public class PaymentService {
     public List<PaymentRequest> getPaymentRequestsByOperatorId(Long operatorId) {
         return paymentRequestRepository.findByOperatorId(operatorId);
     }
+
+    @Transactional
+    public Optional<PaymentRequest> approvePaymentRequest(Long paymentRequestId) {
+        Optional<PaymentRequest> paymentRequestOpt = paymentRequestRepository.findById(paymentRequestId);
+        
+        if (paymentRequestOpt.isPresent()) {
+            PaymentRequest paymentRequest = paymentRequestOpt.get();
+            paymentRequest.setIsApproved(true);
+            PaymentRequest savedRequest = paymentRequestRepository.save(paymentRequest);
+            return Optional.of(savedRequest);
+        }
+        
+        return Optional.empty();
+    }
 }

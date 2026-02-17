@@ -1,6 +1,5 @@
 package com.payment.controller;
 
-import com.payment.dto.PaymentRequestResponse;
 import com.payment.dto.TopUpRequest;
 import com.payment.dto.TopUpResponse;
 import com.payment.entity.PaymentRequest;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -42,24 +38,5 @@ public class PaymentController {
             );
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-    }
-
-    @GetMapping("/requests/{operatorId}")
-    public ResponseEntity<List<PaymentRequestResponse>> getPaymentRequestsByOperatorId(
-            @PathVariable Long operatorId) {
-        
-        List<PaymentRequest> paymentRequests = paymentService.getPaymentRequestsByOperatorId(operatorId);
-        
-        List<PaymentRequestResponse> responses = paymentRequests.stream()
-                .map(pr -> new PaymentRequestResponse(
-                        pr.getId(),
-                        pr.getOperatorId(),
-                        pr.getAccountId(),
-                        pr.getAmount(),
-                        pr.getIsApproved()
-                ))
-                .collect(Collectors.toList());
-        
-        return ResponseEntity.ok(responses);
     }
 }

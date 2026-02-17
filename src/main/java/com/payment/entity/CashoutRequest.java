@@ -30,5 +30,5 @@ public class CashoutRequest {
     private BigDecimal amount;
 
     @Column(name = "is_approved", nullable = false)
-    private Boolean isApproved;
+    private Boolean isApproved = false;
 }
