@@ -5,21 +5,17 @@ import com.payment.dto.TopUpResponse;
 import com.payment.entity.PaymentRequest;
 import com.payment.service.PaymentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/payment")
+@RequiredArgsConstructor
 public class PaymentController {
 
     private final PaymentService paymentService;
-
-    @Autowired
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
 
     @PostMapping("/top-up")
     public ResponseEntity<TopUpResponse> topUp(

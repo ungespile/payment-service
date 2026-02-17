@@ -6,14 +6,14 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "payment_requests")
+@Table(name = "cashout_requests")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = {"id"})
-public class PaymentRequest {
+public class CashoutRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

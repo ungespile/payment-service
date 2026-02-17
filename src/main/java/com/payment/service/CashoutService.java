@@ -1,9 +1,9 @@
 package com.payment.service;
 
 import com.payment.entity.Account;
-import com.payment.entity.PaymentRequest;
+import com.payment.entity.CashoutRequest;
 import com.payment.repository.AccountRepository;
-import com.payment.repository.PaymentRequestRepository;
+import com.payment.repository.CashoutRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +16,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentService {
+public class CashoutService {
 
     private final AccountRepository accountRepository;
-    private final PaymentRequestRepository paymentRequestRepository;
+    private final CashoutRequestRepository cashoutRequestRepository;
 
     @Transactional
-    public Optional<PaymentRequest> createTopUpRequest(Long operatorId, BigDecimal amount) {
+    public Optional<CashoutRequest> createCashoutRequest(Long operatorId, BigDecimal amount) {
         // Находим первую запись из accounts с is_active=true и unchecked_available_amount < amount
         Pageable pageable = PageRequest.of(0, 1);
         List<Account> accounts = accountRepository.findActiveAccountsWithUncheckedAmountLessThan(amount, pageable);
@@ -33,15 +33,15 @@ public class PaymentService {
         
         Account account = accounts.get(0);
         
-        // Создаем запись в payment_requests
-        PaymentRequest paymentRequest = PaymentRequest.builder()
+        // Создаем запись в cashout_requests
+        CashoutRequest cashoutRequest = CashoutRequest.builder()
                 .operatorId(operatorId)
                 .accountId(account.getId())
                 .amount(amount)
                 .isApproved(false)
                 .build();
         
-        PaymentRequest savedRequest = paymentRequestRepository.save(paymentRequest);
+        CashoutRequest savedRequest = cashoutRequestRepository.save(cashoutRequest);
         
         return Optional.of(savedRequest);
     }

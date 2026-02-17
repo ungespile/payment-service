@@ -4,17 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class CashoutResponse {
 
     private boolean success;
     private String message;
-    private Long operatorId;
-    private String username;
+    private Long cashoutRequestId;
+    private Long accountId;
+    private BigDecimal amount;
 
-    public LoginResponse(boolean success, String message) {
+    public CashoutResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
