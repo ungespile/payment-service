@@ -45,4 +45,22 @@ public class CashoutService {
         
         return Optional.of(savedRequest);
     }
+
+    public List<CashoutRequest> getCashoutRequestsByOperatorId(Long operatorId) {
+        return cashoutRequestRepository.findByOperatorId(operatorId);
+    }
+
+    @Transactional
+    public Optional<CashoutRequest> approveCashoutRequest(Long cashoutRequestId) {
+        Optional<CashoutRequest> cashoutRequestOpt = cashoutRequestRepository.findById(cashoutRequestId);
+        
+        if (cashoutRequestOpt.isPresent()) {
+            CashoutRequest cashoutRequest = cashoutRequestOpt.get();
+            cashoutRequest.setIsApproved(true);
+            CashoutRequest savedRequest = cashoutRequestRepository.save(cashoutRequest);
+            return Optional.of(savedRequest);
+        }
+        
+        return Optional.empty();
+    }
 }

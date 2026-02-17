@@ -173,7 +173,55 @@ java -jar target/payment-service-1.0.0.jar
 
 Если запросов нет, возвращается пустой массив `[]`.
 
-### 4. Одобрение payment request
+### 4. Получение всех cashout requests по operator_id
+**GET** `/api/operator/{operatorId}/cashout-requests`
+
+Параметры пути:
+- `operatorId`: ID оператора
+
+Ответ при успехе:
+```json
+[
+  {
+    "id": 1,
+    "operatorId": 1,
+    "accountId": 1,
+    "amount": 500.00,
+    "isApproved": false
+  },
+  {
+    "id": 2,
+    "operatorId": 1,
+    "accountId": 2,
+    "amount": 300.00,
+    "isApproved": true
+  }
+]
+```
+
+Если запросов нет, возвращается пустой массив `[]`.
+
+### 5. Одобрение cashout request
+**PUT** `/api/operator/cashout-requests/{cashoutRequestId}/approve`
+
+Параметры пути:
+- `cashoutRequestId`: ID cashout request для одобрения
+
+Ответ при успехе:
+```json
+{
+  "id": 1,
+  "operatorId": 1,
+  "accountId": 1,
+  "amount": 500.00,
+  "isApproved": true
+}
+```
+
+Ответ при ошибке (cashout request не найден):
+- HTTP статус: `404 Not Found`
+
+### 6. Одобрение payment request
 **PUT** `/api/operator/payment-requests/{paymentRequestId}/approve`
 
 Параметры пути:
@@ -193,7 +241,7 @@ java -jar target/payment-service-1.0.0.jar
 Ответ при ошибке (payment request не найден):
 - HTTP статус: `404 Not Found`
 
-### 5. Создание запроса на вывод средств
+### 7. Создание запроса на вывод средств
 **POST** `/api/cashout/request`
 
 Тело запроса:
@@ -251,6 +299,16 @@ curl -X POST http://localhost:8080/api/payment/top-up \
 ### Получение всех payment requests по operator_id
 ```bash
 curl -X GET http://localhost:8080/api/operator/1/payment-requests
+```
+
+### Получение всех cashout requests по operator_id
+```bash
+curl -X GET http://localhost:8080/api/operator/1/cashout-requests
+```
+
+### Одобрение cashout request
+```bash
+curl -X PUT http://localhost:8080/api/operator/cashout-requests/1/approve
 ```
 
 ### Одобрение payment request

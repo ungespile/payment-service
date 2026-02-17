@@ -1,7 +1,10 @@
 package com.payment.controller;
 
+import com.payment.dto.CashoutRequestResponse;
 import com.payment.dto.PaymentRequestResponse;
+import com.payment.entity.CashoutRequest;
 import com.payment.entity.PaymentRequest;
+import com.payment.service.CashoutService;
 import com.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class OperatorController {
 
     private final PaymentService paymentService;
+    private final CashoutService cashoutService;
 
     @GetMapping("/{operatorId}/payment-requests")
     public ResponseEntity<List<PaymentRequestResponse>> getPaymentRequestsByOperatorId(
@@ -51,6 +55,46 @@ public class OperatorController {
                     paymentRequest.getAccountId(),
                     paymentRequest.getAmount(),
                     paymentRequest.getIsApproved()
+            );
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/{operatorId}/cashout-requests")
+    public ResponseEntity<List<CashoutRequestResponse>> getCashoutRequestsByOperatorId(
+            @PathVariable Long operatorId) {
+        
+        List<CashoutRequest> cashoutRequests = cashoutService.getCashoutRequestsByOperatorId(operatorId);
+        
+        List<CashoutRequestResponse> responses = cashoutRequests.stream()
+                .map(cr -> new CashoutRequestResponse(
+                        cr.getId(),
+                        cr.getOperatorId(),
+                        cr.getAccountId(),
+                        cr.getAmount(),
+                        cr.getIsApproved()
+                ))
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(responses);
+    }
+
+    @PutMapping("/cashout-requests/{cashoutRequestId}/approve")
+    public ResponseEntity<CashoutRequestResponse> approveCashoutRequest(
+            @PathVariable Long cashoutRequestId) {
+        
+        var cashoutRequestOpt = cashoutService.approveCashoutRequest(cashoutRequestId);
+        
+        if (cashoutRequestOpt.isPresent()) {
+            CashoutRequest cashoutRequest = cashoutRequestOpt.get();
+            CashoutRequestResponse response = new CashoutRequestResponse(
+                    cashoutRequest.getId(),
+                    cashoutRequest.getOperatorId(),
+                    cashoutRequest.getAccountId(),
+                    cashoutRequest.getAmount(),
+                    cashoutRequest.getIsApproved()
             );
             return ResponseEntity.ok(response);
         } else {
