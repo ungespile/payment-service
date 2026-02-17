@@ -263,3 +263,48 @@ tr:last-child td {
   color: var(--text-primary);
   border-color: var(--text-muted);
 }
+
+/* Language switcher */
+.lang-switcher {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.lang-switcher .lang-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lang-switcher .lang-btn + .lang-btn {
+  border-left: 1px solid var(--border);
+}
+
+.lang-switcher .lang-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.lang-switcher .lang-btn.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+.lang-switcher-login {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.dashboard-header .lang-switcher {
+  margin-right: 0.5rem;
+}

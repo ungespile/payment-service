@@ -7,7 +7,32 @@
     return;
   }
 
-  document.getElementById('userName').textContent = sessionStorage.getItem('username') || 'Оператор';
+  function t(path) {
+    return window.I18n ? window.I18n.t(path) : path;
+  }
+
+  function applyPageTranslations() {
+    if (window.I18n) {
+      document.title = t('dashboard.pageTitle');
+      window.I18n.applyTranslations();
+    }
+    document.getElementById('userName').textContent = sessionStorage.getItem('username') || t('dashboard.operator');
+    var loadPayment = document.getElementById('paymentLoading');
+    var loadCashout = document.getElementById('cashoutLoading');
+    if (loadPayment && loadPayment.style.display !== 'none') loadPayment.textContent = t('dashboard.loading');
+    if (loadCashout && loadCashout.style.display !== 'none') loadCashout.textContent = t('dashboard.loading');
+    var emptyPayment = document.getElementById('paymentEmpty');
+    var emptyCashout = document.getElementById('cashoutEmpty');
+    if (emptyPayment) emptyPayment.textContent = t('dashboard.noRecords');
+    if (emptyCashout) emptyCashout.textContent = t('dashboard.noRecords');
+  }
+
+  function updateLangButtons() {
+    const lang = window.I18n ? window.I18n.getLang() : 'ru';
+    document.querySelectorAll('.lang-switcher .lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
 
   document.getElementById('logoutBtn').addEventListener('click', function () {
     sessionStorage.removeItem('operatorId');
@@ -15,21 +40,45 @@
     window.location.href = '/index.html';
   });
 
+  document.querySelectorAll('.lang-switcher .lang-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const lang = btn.getAttribute('data-lang');
+      if (window.I18n) window.I18n.setLang(lang);
+      applyPageTranslations();
+      updateLangButtons();
+      renderPaymentTable(currentPaymentData);
+      renderCashoutTable(currentCashoutData);
+    });
+  });
+
+  var currentPaymentData = [];
+  var currentCashoutData = [];
+
+  applyPageTranslations();
+  updateLangButtons();
+
   function renderPaymentTable(items) {
+    currentPaymentData = items || [];
     if (!items || items.length === 0) {
       document.getElementById('paymentLoading').style.display = 'none';
       document.getElementById('paymentContent').style.display = 'none';
       document.getElementById('paymentEmpty').style.display = 'block';
+      document.getElementById('paymentEmpty').textContent = t('dashboard.noRecords');
       return;
     }
+    const approvedLabel = t('dashboard.approved');
+    const pendingLabel = t('dashboard.pending');
+    const approveLabel = t('dashboard.approve');
+    const amountLabel = t('dashboard.amount');
+    const statusLabel = t('dashboard.status');
     const html = `
       <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Account ID</th>
-            <th>Сумма</th>
-            <th>Статус</th>
+            <th>${amountLabel}</th>
+            <th>${statusLabel}</th>
             <th></th>
           </tr>
         </thead>
@@ -41,9 +90,9 @@
                 <td>${row.id}</td>
                 <td>${row.accountId}</td>
                 <td>${row.amount}</td>
-                <td><span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? 'Одобрен' : 'Ожидает'}</span></td>
+                <td><span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? approvedLabel : pendingLabel}</span></td>
                 <td>
-                  ${approved ? '' : `<button type="button" class="btn btn-approve" data-id="${row.id}" data-type="payment">Approve</button>`}
+                  ${approved ? '' : `<button type="button" class="btn btn-approve" data-id="${row.id}" data-type="payment">${approveLabel}</button>`}
                 </td>
               </tr>
             `;
@@ -65,20 +114,27 @@
   }
 
   function renderCashoutTable(items) {
+    currentCashoutData = items || [];
     if (!items || items.length === 0) {
       document.getElementById('cashoutLoading').style.display = 'none';
       document.getElementById('cashoutContent').style.display = 'none';
       document.getElementById('cashoutEmpty').style.display = 'block';
+      document.getElementById('cashoutEmpty').textContent = t('dashboard.noRecords');
       return;
     }
+    const approvedLabel = t('dashboard.approved');
+    const pendingLabel = t('dashboard.pending');
+    const approveLabel = t('dashboard.approve');
+    const amountLabel = t('dashboard.amount');
+    const statusLabel = t('dashboard.status');
     const html = `
       <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Account ID</th>
-            <th>Сумма</th>
-            <th>Статус</th>
+            <th>${amountLabel}</th>
+            <th>${statusLabel}</th>
             <th></th>
           </tr>
         </thead>
@@ -90,9 +146,9 @@
                 <td>${row.id}</td>
                 <td>${row.accountId}</td>
                 <td>${row.amount}</td>
-                <td><span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? 'Одобрен' : 'Ожидает'}</span></td>
+                <td><span class="badge ${approved ? 'badge-approved' : 'badge-pending'}">${approved ? approvedLabel : pendingLabel}</span></td>
                 <td>
-                  ${approved ? '' : `<button type="button" class="btn btn-approve" data-id="${row.id}" data-type="cashout">Approve</button>`}
+                  ${approved ? '' : `<button type="button" class="btn btn-approve" data-id="${row.id}" data-type="cashout">${approveLabel}</button>`}
                 </td>
               </tr>
             `;
@@ -121,11 +177,11 @@
         loadPaymentRequests();
       } else {
         btn.disabled = false;
-        alert('Не удалось одобрить запрос');
+        alert(t('dashboard.errorApprove'));
       }
     } catch (e) {
       btn.disabled = false;
-      alert('Ошибка соединения');
+      alert(t('dashboard.errorConnection'));
     }
   }
 
@@ -137,11 +193,11 @@
         loadCashoutRequests();
       } else {
         btn.disabled = false;
-        alert('Не удалось одобрить запрос');
+        alert(t('dashboard.errorApprove'));
       }
     } catch (e) {
       btn.disabled = false;
-      alert('Ошибка соединения');
+      alert(t('dashboard.errorConnection'));
     }
   }
 
@@ -151,7 +207,8 @@
       const data = await res.json();
       renderPaymentTable(Array.isArray(data) ? data : []);
     } catch (e) {
-      document.getElementById('paymentLoading').textContent = 'Ошибка загрузки';
+      document.getElementById('paymentLoading').textContent = t('dashboard.loadError');
+      document.getElementById('paymentLoading').style.display = 'block';
       document.getElementById('paymentContent').style.display = 'none';
       document.getElementById('paymentEmpty').style.display = 'none';
     }
@@ -163,7 +220,8 @@
       const data = await res.json();
       renderCashoutTable(Array.isArray(data) ? data : []);
     } catch (e) {
-      document.getElementById('cashoutLoading').textContent = 'Ошибка загрузки';
+      document.getElementById('cashoutLoading').textContent = t('dashboard.loadError');
+      document.getElementById('cashoutLoading').style.display = 'block';
       document.getElementById('cashoutContent').style.display = 'none';
       document.getElementById('cashoutEmpty').style.display = 'none';
     }

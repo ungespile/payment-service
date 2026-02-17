@@ -4,6 +4,36 @@
   const form = document.getElementById('loginForm');
   const errorEl = document.getElementById('loginError');
 
+  function t(path) {
+    return window.I18n ? window.I18n.t(path) : path;
+  }
+
+  function applyPageTranslations() {
+    if (window.I18n) {
+      document.title = t('login.pageTitle');
+      window.I18n.applyTranslations();
+    }
+  }
+
+  function updateLangButtons() {
+    const lang = window.I18n ? window.I18n.getLang() : 'ru';
+    document.querySelectorAll('.lang-switcher .lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+
+  document.querySelectorAll('.lang-switcher .lang-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const lang = btn.getAttribute('data-lang');
+      if (window.I18n) window.I18n.setLang(lang);
+      applyPageTranslations();
+      updateLangButtons();
+    });
+  });
+
+  applyPageTranslations();
+  updateLangButtons();
+
   function showError(message) {
     errorEl.textContent = message;
     errorEl.classList.add('visible');
@@ -22,7 +52,7 @@
     const password = document.getElementById('password').value;
 
     if (!username || !password) {
-      showError('Введите логин и пароль');
+      showError(t('login.errorEmpty'));
       return;
     }
 
@@ -40,10 +70,10 @@
         sessionStorage.setItem('username', data.username || username);
         window.location.href = '/dashboard.html';
       } else {
-        showError(data.message || 'Неверный логин или пароль');
+        showError(data.message || t('login.errorInvalid'));
       }
     } catch (err) {
-      showError('Ошибка соединения. Проверьте, что сервер запущен.');
+      showError(t('login.errorConnection'));
     }
   });
 })();
