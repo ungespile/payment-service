@@ -33,6 +33,10 @@ public class PaymentService {
         
         Account account = accounts.get(0);
         
+        // Устанавливаем is_used = false у выбранного счета
+        account.setIsUsed(false);
+        accountRepository.save(account);
+        
         // Создаем запись в payment_requests с operator_id из выбранного account
         PaymentRequest paymentRequest = PaymentRequest.builder()
                 .operatorId(account.getOperatorId())
@@ -59,6 +63,15 @@ public class PaymentService {
             paymentRequest.setIsApproved(true);
             paymentRequest.setApprovedAt(java.time.LocalDateTime.now());
             PaymentRequest savedRequest = paymentRequestRepository.save(paymentRequest);
+            
+            // Устанавливаем is_used = true у счета по accountId
+            Optional<Account> accountOpt = accountRepository.findById(paymentRequest.getAccountId());
+            if (accountOpt.isPresent()) {
+                Account account = accountOpt.get();
+                account.setIsUsed(true);
+                accountRepository.save(account);
+            }
+            
             return Optional.of(savedRequest);
         }
         

@@ -33,6 +33,10 @@ public class CashoutService {
         
         Account account = accounts.get(0);
         
+        // Устанавливаем is_used = false у выбранного счета
+        account.setIsUsed(false);
+        accountRepository.save(account);
+        
         // Создаем запись в cashout_requests с operator_id из выбранного account
         CashoutRequest cashoutRequest = CashoutRequest.builder()
                 .operatorId(account.getOperatorId())
@@ -59,6 +63,15 @@ public class CashoutService {
             cashoutRequest.setIsApproved(true);
             cashoutRequest.setApprovedAt(java.time.LocalDateTime.now());
             CashoutRequest savedRequest = cashoutRequestRepository.save(cashoutRequest);
+            
+            // Устанавливаем is_used = true у счета по accountId
+            Optional<Account> accountOpt = accountRepository.findById(cashoutRequest.getAccountId());
+            if (accountOpt.isPresent()) {
+                Account account = accountOpt.get();
+                account.setIsUsed(true);
+                accountRepository.save(account);
+            }
+            
             return Optional.of(savedRequest);
         }
         
