@@ -35,7 +35,8 @@
         beginSession: 'Начать сессию',
         endSession: 'Завершить сессию',
         sessionStarted: 'Сессия начата',
-        sessionEnded: 'Сессия завершена'
+        sessionEnded: 'Сессия завершена',
+        errorCloseOperations: 'Сначала закройте все текущие операции'
       },
       admin: {
         pageTitle: 'Панель администратора — Payment Service',
@@ -92,7 +93,8 @@
         beginSession: 'Begin session',
         endSession: 'End session',
         sessionStarted: 'Session started',
-        sessionEnded: 'Session ended'
+        sessionEnded: 'Session ended',
+        errorCloseOperations: 'First close all current operations'
       },
       admin: {
         pageTitle: 'Admin Panel — Payment Service',

@@ -17,4 +17,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findActiveAccountsWithUncheckedAmountGreaterThan(@Param("amount") BigDecimal amount, Pageable pageable);
 
     List<Account> findByOperatorId(Long operatorId);
+    
+    @Query("SELECT a FROM Account a WHERE a.operatorId = :operatorId AND a.isUsed = true")
+    List<Account> findByOperatorIdAndIsUsedTrue(@Param("operatorId") Long operatorId);
 }

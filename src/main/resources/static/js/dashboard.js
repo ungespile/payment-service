@@ -66,8 +66,14 @@
     btn.disabled = true;
     fetch(API_BASE + '/api/operator/' + operatorId + '/session/end', { method: 'POST' })
       .then(function (res) {
-        if (res.ok) alert(t('dashboard.sessionEnded'));
-        else alert(t('dashboard.errorConnection'));
+        if (res.ok) {
+          alert(t('dashboard.sessionEnded'));
+        } else {
+          return res.text().then(function (text) {
+            var errorMessage = text || t('dashboard.errorConnection');
+            alert(errorMessage);
+          });
+        }
       })
       .catch(function () { alert(t('dashboard.errorConnection')); })
       .finally(function () { btn.disabled = false; });

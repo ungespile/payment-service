@@ -111,7 +111,11 @@ public class OperatorController {
     }
 
     @PostMapping("/{operatorId}/session/end")
-    public ResponseEntity<Void> endSession(@PathVariable Long operatorId) {
+    public ResponseEntity<String> endSession(@PathVariable Long operatorId) {
+        if (accountService.hasActiveOperations(operatorId)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Сначала закройте все текущие операции");
+        }
         accountService.setAccountsActiveByOperatorId(operatorId, false);
         return ResponseEntity.ok().build();
     }

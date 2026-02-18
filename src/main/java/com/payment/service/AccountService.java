@@ -20,4 +20,9 @@ public class AccountService {
         accounts.forEach(a -> a.setIsActive(isActive));
         accountRepository.saveAll(accounts);
     }
+
+    public boolean hasActiveOperations(Long operatorId) {
+        List<Account> accountsWithActiveOperations = accountRepository.findByOperatorIdAndIsUsedTrue(operatorId);
+        return !accountsWithActiveOperations.isEmpty();
+    }
 }
