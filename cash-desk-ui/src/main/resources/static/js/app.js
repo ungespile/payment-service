@@ -4,6 +4,47 @@
 
   document.getElementById('apiUrl').textContent = API_BASE;
 
+  // Элементы интерфейса
+  const actionSelection = document.getElementById('actionSelection');
+  const topUpFormContainer = document.getElementById('topUpFormContainer');
+  const cashoutFormContainer = document.getElementById('cashoutFormContainer');
+  const topUpBtn = document.getElementById('topUpBtn');
+  const cashoutBtn = document.getElementById('cashoutBtn');
+  const backFromTopUp = document.getElementById('backFromTopUp');
+  const backFromCashout = document.getElementById('backFromCashout');
+
+  // Показать экран выбора действия
+  function showActionSelection() {
+    actionSelection.style.display = 'block';
+    topUpFormContainer.style.display = 'none';
+    cashoutFormContainer.style.display = 'none';
+    // Очистить сообщения
+    document.getElementById('topUpMessage').textContent = '';
+    document.getElementById('cashoutMessage').textContent = '';
+    document.getElementById('topUpAmount').value = '';
+    document.getElementById('cashoutAmount').value = '';
+  }
+
+  // Показать форму пополнения
+  function showTopUpForm() {
+    actionSelection.style.display = 'none';
+    topUpFormContainer.style.display = 'block';
+    cashoutFormContainer.style.display = 'none';
+  }
+
+  // Показать форму снятия
+  function showCashoutForm() {
+    actionSelection.style.display = 'none';
+    topUpFormContainer.style.display = 'none';
+    cashoutFormContainer.style.display = 'block';
+  }
+
+  // Обработчики кнопок
+  topUpBtn.addEventListener('click', showTopUpForm);
+  cashoutBtn.addEventListener('click', showCashoutForm);
+  backFromTopUp.addEventListener('click', showActionSelection);
+  backFromCashout.addEventListener('click', showActionSelection);
+
   function showMessage(elId, text, isError) {
     var el = document.getElementById(elId);
     el.textContent = text;
@@ -33,6 +74,10 @@
       if (data.success) {
         showMessage('topUpMessage', 'Запрос на пополнение создан. ID: ' + data.paymentRequestId + ', счёт: ' + data.accountId, false);
         amountEl.value = '';
+        // Вернуться к выбору действия через 3 секунды после успешного создания
+        setTimeout(function() {
+          showActionSelection();
+        }, 3000);
       } else {
         showMessage('topUpMessage', data.message || 'Ошибка', true);
       }
@@ -63,6 +108,10 @@
       if (data.success) {
         showMessage('cashoutMessage', 'Запрос на снятие создан. ID: ' + data.cashoutRequestId + ', счёт: ' + data.accountId, false);
         amountEl.value = '';
+        // Вернуться к выбору действия через 3 секунды после успешного создания
+        setTimeout(function() {
+          showActionSelection();
+        }, 3000);
       } else {
         showMessage('cashoutMessage', data.message || 'Ошибка', true);
       }
