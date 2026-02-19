@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель администратора — Payment Service</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="dashboard-header">
+      <h1 data-i18n="admin.headerTitle">Панель администратора</h1>
+      <div class="user-info">
+        <span id="userName"></span>
+        <div class="lang-switcher">
+          <button type="button" class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+        </div>
+        <button type="button" class="btn logout-btn" id="logoutBtn" data-i18n="admin.logout">Выйти</button>
+      </div>
+    </header>
+
+    <div class="filters-panel">
+      <div class="filter-group">
+        <label for="operatorFilter" data-i18n="admin.filterOperator">Оператор:</label>
+        <select id="operatorFilter" class="filter-select">
+          <option value="">Все операторы</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="startDate" data-i18n="admin.filterStartDate">С:</label>
+        <input type="datetime-local" id="startDate" class="filter-input">
+      </div>
+      <div class="filter-group">
+        <label for="endDate" data-i18n="admin.filterEndDate">По:</label>
+        <input type="datetime-local" id="endDate" class="filter-input">
+      </div>
+      <button type="button" class="btn btn-primary" id="applyFiltersBtn" data-i18n="admin.applyFilters">Применить</button>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title" data-i18n="admin.approvalHistory">История одобрений</h2>
+      <div class="panel-body">
+        <div id="historyLoading" class="loading" data-i18n="admin.loading">Загрузка…</div>
+        <div id="historyContent" class="table-wrap" style="display: none;"></div>
+        <div id="historyEmpty" class="empty-state" style="display: none;" data-i18n="admin.noRecords">Нет записей</div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

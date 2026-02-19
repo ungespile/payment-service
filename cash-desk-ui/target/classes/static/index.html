@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Касса — Пополнение и снятие</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <h1>Касса</h1>
+      <p class="api-status" id="apiStatus">API: <span id="apiUrl"></span></p>
+    </header>
+
+    <!-- Экран выбора действия -->
+    <div id="actionSelection" class="action-selection">
+      <div class="action-buttons">
+        <button id="topUpBtn" class="btn btn-action btn-primary">
+          <span class="btn-icon">💰</span>
+          <span class="btn-text">Пополнить баланс</span>
+        </button>
+        <button id="cashoutBtn" class="btn btn-action btn-secondary">
+          <span class="btn-icon">💸</span>
+          <span class="btn-text">Вывести деньги</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Форма пополнения -->
+    <div id="topUpFormContainer" class="form-container hidden">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Пополнение баланса</h2>
+          <button id="backFromTopUp" class="btn-back">← Назад</button>
+        </div>
+        <form id="topUpForm" class="form">
+          <div class="form-group">
+            <label for="topUpAmount">Сумма</label>
+            <input type="number" id="topUpAmount" name="amount" step="0.01" min="0.01" required placeholder="0.00">
+          </div>
+          <button type="submit" class="btn btn-primary">Пополнить</button>
+          <div id="topUpMessage" class="message" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Форма снятия -->
+    <div id="cashoutFormContainer" class="form-container hidden">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Вывод денег</h2>
+          <button id="backFromCashout" class="btn-back">← Назад</button>
+        </div>
+        <form id="cashoutForm" class="form">
+          <div class="form-group">
+            <label for="cashoutAmount">Сумма</label>
+            <input type="number" id="cashoutAmount" name="amount" step="0.01" min="0.01" required placeholder="0.00">
+          </div>
+          <button type="submit" class="btn btn-secondary">Снять</button>
+          <div id="cashoutMessage" class="message" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="/js/app.js"></script>
+</body>
+</html>

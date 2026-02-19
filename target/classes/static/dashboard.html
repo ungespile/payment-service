@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель оператора — Payment Service</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="dashboard-header">
+      <h1 data-i18n="dashboard.headerTitle">Панель оператора</h1>
+      <div class="header-actions">
+        <div class="session-buttons">
+          <button type="button" class="btn btn-session btn-begin" id="beginSessionBtn" data-i18n="dashboard.beginSession">Начать сессию</button>
+          <button type="button" class="btn btn-session btn-end" id="endSessionBtn" data-i18n="dashboard.endSession">Завершить сессию</button>
+        </div>
+        <div class="user-info">
+          <span id="userName"></span>
+          <div class="lang-switcher">
+            <button type="button" class="lang-btn active" data-lang="ru" aria-label="Русский">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+          </div>
+          <button type="button" class="btn logout-btn" id="logoutBtn" data-i18n="dashboard.logout">Выйти</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="panels">
+      <div class="panel">
+        <h2 class="panel-title" data-i18n="dashboard.paymentPanelTitle">Payment requests (пополнение)</h2>
+        <div class="panel-body">
+          <div id="paymentLoading" class="loading" data-i18n="dashboard.loading">Загрузка…</div>
+          <div id="paymentContent" class="table-wrap" style="display: none;"></div>
+          <div id="paymentEmpty" class="empty-state" style="display: none;" data-i18n="dashboard.noRecords">Нет записей</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2 class="panel-title" data-i18n="dashboard.cashoutPanelTitle">Cashout requests (вывод)</h2>
+        <div class="panel-body">
+          <div id="cashoutLoading" class="loading" data-i18n="dashboard.loading">Загрузка…</div>
+          <div id="cashoutContent" class="table-wrap" style="display: none;"></div>
+          <div id="cashoutEmpty" class="empty-state" style="display: none;" data-i18n="dashboard.noRecords">Нет записей</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
