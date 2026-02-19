@@ -244,13 +244,26 @@
     try {
       const res = await fetch(API_BASE + '/api/operator/' + operatorId + '/payment-requests');
       const data = await res.json();
-      const sortedData = Array.isArray(data) ? data.sort(function(a, b) {
-        // Сначала записи с isApproved=false, затем с isApproved=true
-        if (a.isApproved === b.isApproved) {
+      if (!Array.isArray(data)) {
+        renderPaymentTable([]);
+        return;
+      }
+      // Создаем копию массива и сортируем: сначала неодобренные (false), потом одобренные (true)
+      const sortedData = [...data].sort(function(a, b) {
+        const aApproved = Boolean(a.isApproved);
+        const bApproved = Boolean(b.isApproved);
+        
+        // Если оба одобрены или оба не одобрены - сохраняем порядок
+        if (aApproved === bApproved) {
           return 0;
         }
-        return a.isApproved ? 1 : -1;
-      }) : [];
+        // Если a не одобрен (false), а b одобрен (true) - a идет первым
+        if (!aApproved && bApproved) {
+          return -1;
+        }
+        // Если a одобрен (true), а b не одобрен (false) - b идет первым
+        return 1;
+      });
       renderPaymentTable(sortedData);
     } catch (e) {
       document.getElementById('paymentLoading').textContent = t('dashboard.loadError');
@@ -264,13 +277,26 @@
     try {
       const res = await fetch(API_BASE + '/api/operator/' + operatorId + '/cashout-requests');
       const data = await res.json();
-      const sortedData = Array.isArray(data) ? data.sort(function(a, b) {
-        // Сначала записи с isApproved=false, затем с isApproved=true
-        if (a.isApproved === b.isApproved) {
+      if (!Array.isArray(data)) {
+        renderCashoutTable([]);
+        return;
+      }
+      // Создаем копию массива и сортируем: сначала неодобренные (false), потом одобренные (true)
+      const sortedData = [...data].sort(function(a, b) {
+        const aApproved = Boolean(a.isApproved);
+        const bApproved = Boolean(b.isApproved);
+        
+        // Если оба одобрены или оба не одобрены - сохраняем порядок
+        if (aApproved === bApproved) {
           return 0;
         }
-        return a.isApproved ? 1 : -1;
-      }) : [];
+        // Если a не одобрен (false), а b одобрен (true) - a идет первым
+        if (!aApproved && bApproved) {
+          return -1;
+        }
+        // Если a одобрен (true), а b не одобрен (false) - b идет первым
+        return 1;
+      });
       renderCashoutTable(sortedData);
     } catch (e) {
       document.getElementById('cashoutLoading').textContent = t('dashboard.loadError');
