@@ -306,6 +306,53 @@
     }
   }
 
-  loadPaymentRequests();
-  loadCashoutRequests();
+  // Функция для обновления всех данных
+  function refreshData() {
+    loadPaymentRequests();
+    loadCashoutRequests();
+  }
+
+  // Переменная для хранения ID интервала
+  let refreshIntervalId = null;
+
+  // Функция для запуска автоматического обновления
+  function startAutoRefresh() {
+    // Очищаем предыдущий интервал, если он существует
+    if (refreshIntervalId) {
+      clearInterval(refreshIntervalId);
+    }
+    // Запускаем новый интервал обновления каждые 5 секунд
+    refreshIntervalId = setInterval(refreshData, 5000);
+  }
+
+  // Функция для остановки автоматического обновления
+  function stopAutoRefresh() {
+    if (refreshIntervalId) {
+      clearInterval(refreshIntervalId);
+      refreshIntervalId = null;
+    }
+  }
+
+  // Начальная загрузка данных
+  refreshData();
+
+  // Запускаем автоматическое обновление
+  startAutoRefresh();
+
+  // Очистка интервала при уходе со страницы
+  window.addEventListener('beforeunload', function() {
+    stopAutoRefresh();
+  });
+
+  // Оптимизация: приостанавливаем обновление когда страница скрыта
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      // Страница скрыта - приостанавливаем обновление
+      stopAutoRefresh();
+    } else {
+      // Страница видна - возобновляем обновление
+      refreshData(); // Обновляем сразу при возврате
+      startAutoRefresh();
+    }
+  });
 })();
