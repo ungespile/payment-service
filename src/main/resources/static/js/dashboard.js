@@ -244,7 +244,14 @@
     try {
       const res = await fetch(API_BASE + '/api/operator/' + operatorId + '/payment-requests');
       const data = await res.json();
-      renderPaymentTable(Array.isArray(data) ? data : []);
+      const sortedData = Array.isArray(data) ? data.sort(function(a, b) {
+        // Сначала записи с isApproved=false, затем с isApproved=true
+        if (a.isApproved === b.isApproved) {
+          return 0;
+        }
+        return a.isApproved ? 1 : -1;
+      }) : [];
+      renderPaymentTable(sortedData);
     } catch (e) {
       document.getElementById('paymentLoading').textContent = t('dashboard.loadError');
       document.getElementById('paymentLoading').style.display = 'block';
@@ -257,7 +264,14 @@
     try {
       const res = await fetch(API_BASE + '/api/operator/' + operatorId + '/cashout-requests');
       const data = await res.json();
-      renderCashoutTable(Array.isArray(data) ? data : []);
+      const sortedData = Array.isArray(data) ? data.sort(function(a, b) {
+        // Сначала записи с isApproved=false, затем с isApproved=true
+        if (a.isApproved === b.isApproved) {
+          return 0;
+        }
+        return a.isApproved ? 1 : -1;
+      }) : [];
+      renderCashoutTable(sortedData);
     } catch (e) {
       document.getElementById('cashoutLoading').textContent = t('dashboard.loadError');
       document.getElementById('cashoutLoading').style.display = 'block';
