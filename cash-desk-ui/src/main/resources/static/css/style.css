@@ -53,6 +53,19 @@ body {
   min-height: 400px;
 }
 
+.action-selection.hidden {
+  display: none !important;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-container.hidden {
+  display: none !important;
+}
+
 .action-buttons {
   display: flex;
   gap: 2rem;
@@ -76,11 +89,6 @@ body {
 
 .btn-text {
   font-weight: 600;
-}
-
-.form-container {
-  max-width: 500px;
-  margin: 0 auto;
 }
 
 .card-header {

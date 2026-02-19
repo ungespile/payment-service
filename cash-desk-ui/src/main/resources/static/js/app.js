@@ -24,9 +24,15 @@
 
     // Показать экран выбора действия
     function showActionSelection() {
-      if (actionSelection) actionSelection.style.display = 'block';
-      if (topUpFormContainer) topUpFormContainer.style.display = 'none';
-      if (cashoutFormContainer) cashoutFormContainer.style.display = 'none';
+      if (actionSelection) {
+        actionSelection.classList.remove('hidden');
+      }
+      if (topUpFormContainer) {
+        topUpFormContainer.classList.add('hidden');
+      }
+      if (cashoutFormContainer) {
+        cashoutFormContainer.classList.add('hidden');
+      }
       // Очистить сообщения
       var topUpMessage = document.getElementById('topUpMessage');
       var cashoutMessage = document.getElementById('cashoutMessage');
@@ -40,30 +46,56 @@
 
     // Показать форму пополнения
     function showTopUpForm() {
-      if (actionSelection) actionSelection.style.display = 'none';
-      if (topUpFormContainer) topUpFormContainer.style.display = 'block';
-      if (cashoutFormContainer) cashoutFormContainer.style.display = 'none';
+      console.log('showTopUpForm вызвана');
+      if (actionSelection) {
+        actionSelection.classList.add('hidden');
+      }
+      if (topUpFormContainer) {
+        topUpFormContainer.classList.remove('hidden');
+        console.log('topUpFormContainer показан, классы:', topUpFormContainer.className);
+      }
+      if (cashoutFormContainer) {
+        cashoutFormContainer.classList.add('hidden');
+      }
     }
 
     // Показать форму снятия
     function showCashoutForm() {
-      if (actionSelection) actionSelection.style.display = 'none';
-      if (topUpFormContainer) topUpFormContainer.style.display = 'none';
-      if (cashoutFormContainer) cashoutFormContainer.style.display = 'block';
+      console.log('showCashoutForm вызвана');
+      if (actionSelection) {
+        actionSelection.classList.add('hidden');
+      }
+      if (topUpFormContainer) {
+        topUpFormContainer.classList.add('hidden');
+      }
+      if (cashoutFormContainer) {
+        cashoutFormContainer.classList.remove('hidden');
+        console.log('cashoutFormContainer показан, классы:', cashoutFormContainer.className);
+      }
     }
 
     // Обработчики кнопок
     if (topUpBtn) {
+      console.log('Добавляем обработчик для topUpBtn');
       topUpBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        console.log('Кнопка topUpBtn нажата');
         showTopUpForm();
       });
+    } else {
+      console.error('topUpBtn не найден!');
     }
     if (cashoutBtn) {
+      console.log('Добавляем обработчик для cashoutBtn');
       cashoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        console.log('Кнопка cashoutBtn нажата');
         showCashoutForm();
       });
+    } else {
+      console.error('cashoutBtn не найден!');
     }
     if (backFromTopUp) {
       backFromTopUp.addEventListener('click', function(e) {
