@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPanel — Обзор</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin-panel.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-text">AdminPanel</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active">
+          <span class="nav-icon">⇄</span>
+          <span class="nav-text">Транзакции</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">!</span>
+          <span class="nav-text">Апелляции</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Отчёты</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">🏪</span>
+          <span class="nav-text">Мерчанты</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">📈</span>
+          <span class="nav-text">Трейдеры</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">🤝</span>
+          <span class="nav-text">Агенты</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">🏦</span>
+          <span class="nav-text">Провайдеры</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">⭐</span>
+          <span class="nav-text">Акции</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span class="nav-text">Пользователи</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>Обороты</h1>
+          <div class="header-subtitle">
+            <span>PayIn / PayOut</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-metrics">
+            <span>М: 77.24</span>
+            <span>ТР: 77.24</span>
+            <span>ПР: 77.24</span>
+          </div>
+          <div class="header-user">
+            <span class="user-name">admin</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="admin-top">
+        <div class="card chart-card">
+          <div class="card-header">
+            <span>Обороты</span>
+          </div>
+          <div class="card-body">
+            <canvas id="turnoverChart" aria-label="График оборотов" role="img"></canvas>
+            <div class="chart-legend">
+              <span class="legend-item">
+                <span class="dot dot-payin"></span> PayIn
+              </span>
+              <span class="legend-item">
+                <span class="dot dot-payout"></span> PayOut
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card pie-card">
+          <div class="card-header">
+            <span>Баланс: 2,627,499.68</span>
+          </div>
+          <div class="card-body">
+            <canvas id="balanceChart" aria-label="Распределение баланса" role="img"></canvas>
+            <div class="chart-legend vertical">
+              <span class="legend-item">
+                <span class="dot dot-merchants"></span> Мерчанты
+              </span>
+              <span class="legend-item">
+                <span class="dot dot-traders"></span> Трейдеры
+              </span>
+              <span class="legend-item">
+                <span class="dot dot-providers"></span> Провайдеры
+              </span>
+              <span class="legend-item">
+                <span class="dot dot-agents"></span> Агенты
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-bottom">
+        <div class="stat-card merchants">
+          <div class="stat-header">
+            <span class="stat-title">Мерчанты</span>
+            <span class="stat-value">422,940.59</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-row">
+              <span>Позитивный баланс</span>
+              <span>491,840.59</span>
+            </div>
+            <div class="stat-row">
+              <span>Активные сетлы</span>
+              <span>100.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Страховой</span>
+              <span>69,000.00</span>
+            </div>
+            <div class="stat-row negative">
+              <span>Нам должны</span>
+              <span>0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card traders">
+          <div class="stat-header">
+            <span class="stat-title">Трейдеры</span>
+            <span class="stat-value">540,839.14</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-row">
+              <span>Позитивный баланс</span>
+              <span>535,839.14</span>
+            </div>
+            <div class="stat-row">
+              <span>Активные сетлы</span>
+              <span>5,000.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Страховой</span>
+              <span>5,000.00</span>
+            </div>
+            <div class="stat-row negative">
+              <span>Нам должны</span>
+              <span>0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card providers">
+          <div class="stat-header">
+            <span class="stat-title">Провайдеры</span>
+            <span class="stat-value">1,594,719.95</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-row">
+              <span>Позитивный баланс</span>
+              <span>1,579,719.95</span>
+            </div>
+            <div class="stat-row">
+              <span>Активные сетлы</span>
+              <span>0.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Страховой</span>
+              <span>15,000.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Кредит</span>
+              <span>0.00</span>
+            </div>
+            <div class="stat-row negative">
+              <span>Нам должны</span>
+              <span>0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card agents">
+          <div class="stat-header">
+            <span class="stat-title">Агенты</span>
+            <span class="stat-value">0.00</span>
+          </div>
+          <div class="stat-body">
+            <div class="stat-row">
+              <span>Позитивный баланс</span>
+              <span>0.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Активные сетлы</span>
+              <span>0.00</span>
+            </div>
+            <div class="stat-row">
+              <span>Страховой</span>
+              <span>0.00</span>
+            </div>
+            <div class="stat-row negative">
+              <span>Нам должны</span>
+              <span>0.00</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/admin-panel.js"></script>
+</body>
+</html>
+
